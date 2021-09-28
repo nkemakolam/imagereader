@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - image: nkem/imagereader:latest
+    name: mypod
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 250m
+        memory: 256Mi
+    volumeMounts:
+      - name: azure
+        mountPath: /app/mnt/azure
+  volumes:
+  - name: azure
+    # persistentVolumeClaim:
+    #   claimName: azurefile-tst
+    azureFile:
+      secretName: nktst-secret
+      shareName: sharetstdemo
+      readOnly: false
